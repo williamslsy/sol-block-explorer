@@ -9,3 +9,10 @@ export interface Block {
   rewardUsd: number;
   solanaPriceUsd: number;
 }
+
+export interface TokenPrices {
+  SOL: number;
+  USDC: number;
+  USDT: number;
+  ETH: number;
+}

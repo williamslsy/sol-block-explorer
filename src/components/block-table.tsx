@@ -18,35 +18,35 @@ function BlockTable() {
     <div className="w-[800px] mx-auto">
       <Table className="border-separate border-spacing-y-2">
         <TableHeader>
-          <TableRow className="border-none hover:bg-transparent text-white/60 text-xs">
-            <TableHead className="w-[120px]">Block hash</TableHead>
-            <TableHead className="w-[100px]">Slot</TableHead>
-            <TableHead className="w-[100px]">Timestamp</TableHead>
-            <TableHead className="w-[80px]">Tx count</TableHead>
-            <TableHead className="w-[120px]">Leader</TableHead>
-            <TableHead className="w-[120px]">Reward</TableHead>
+          <TableRow className="border-none hover:bg-transparent text-white_secondary pl-6 pr-4">
+            <TableHead className="w-[120px] font-extralight pl-6 pr-4">Block hash</TableHead>
+            <TableHead className="w-[120px] font-extralight">Slot</TableHead>
+            <TableHead className="w-[120px] font-extralight">Timestamp</TableHead>
+            <TableHead className="w-[80px] font-extralight">Tx count</TableHead>
+            <TableHead className="w-[120px] font-extralight">Leader</TableHead>
+            <TableHead className="w-[120px] font-extralight pl-4">Reward</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {blocks.map((block) => (
             <TableRow key={block.blockHash} className="bg-white/[0.02] hover:bg-white/[0.04] rounded-2xl h-14 cursor-pointer" onClick={() => handleRowClick(block.slot)}>
-              <TableCell className="first:rounded-l-2xl">
-                <span className="text-sm font-medium text-[#52F2B9]">{truncateHash(block.blockHash)}</span>
+              <TableCell className="first:rounded-l-2xl pl-6 pr-4 py-4">
+                <span className="text-link">{truncateHash(block.blockHash)}</span>
               </TableCell>
               <TableCell>
-                <span className="text-sm font-medium text-[#52F2B9]">#{block.slot}</span>
+                <span className="text-link">#{block.slot}</span>
               </TableCell>
               <TableCell className="whitespace-nowrap">
-                <span className="text-sm font-medium text-white/60">{formatTimestamp(block.timestamp)}</span>
+                <span className="text-white_secondary">{formatTimestamp(block.timestamp)}</span>
               </TableCell>
               <TableCell>
-                <span className="text-sm font-medium text-white/60">{block.txCount}</span>
+                <span className="text-white_secondary">{block.txCount}</span>
               </TableCell>
               <TableCell>
-                <span className="text-sm font-medium text-[#52F2B9]">{truncateHash(block.leader)}</span>
+                <span className="text-link">{truncateHash(block.leader)}</span>
               </TableCell>
-              <TableCell className="last:rounded-r-2xl">
+              <TableCell className="last:rounded-r-2xl pr-6 pl-4">
                 <RewardDisplay rewardSol={block.rewardSol} rewardUsd={block.rewardUsd} />
               </TableCell>
             </TableRow>

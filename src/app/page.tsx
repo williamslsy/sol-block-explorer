@@ -1,23 +1,12 @@
 import BlockTable from '@/components/block-table';
-// import Title from '@/components/title';
+import SolBalance from '@/components/sol-balance';
+import Title from '@/components/title';
 
 export default function Home() {
   return (
     <div className="">
-      {/* <Title /> */}
+      <Title />
       <BlockTable />
     </div>
   );
-}
-
-{
-  /* <Header>
-        <Logo/>
-        <Login />
-      </Header>
-      <Main>
-        <Title />
-        <SearchBar />
-        <BlockTable />
-      </Main> */
 }

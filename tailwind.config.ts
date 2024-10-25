@@ -6,7 +6,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        dark: '#0F0F0F',
+        background: '#0F0F0F',
+        green_mantis: '#52F2B9',
+        white_primary: '#FFFFFF',
+        white_secondary: 'rgba(255, 255, 255, 0.6)',
+        link: '#52F2B9',
+        titanium: 'rgba(255, 255, 255, 0.1)',
       },
     },
   },

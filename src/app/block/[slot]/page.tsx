@@ -20,7 +20,6 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
     notFound();
   }
 
-  // Update time every second
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -39,7 +38,6 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
 
   return (
     <div className="max-w-[900px] mx-auto px-4 py-8 space-y-4">
-      {/* Main Block Card */}
       <Card className="relative mb-6 flex h-[96px] w-full items-center justify-between rounded-2xl border border-white/10 bg-[#111111]">
         <CardHeader className="flex flex-row items-center gap-4 p-6">
           <Image src="/assets/Solana.png" alt="Block" width={40} height={40} />
@@ -50,9 +48,7 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
         </CardHeader>
       </Card>
 
-      {/* Info Cards Grid */}
       <div className="grid grid-cols-4 gap-4">
-        {/* Each card in the grid */}
         <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
           <CardContent>
             <div className="space-y-1.5">
@@ -100,7 +96,6 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
         </Card>
       </div>
 
-      {/* Full Width Cards */}
       <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
         <CardContent>
           <div className="space-y-1.5 w-full">

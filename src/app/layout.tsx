@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Open_Sans } from 'next/font/google';
-import { Header } from '@/components/header';
+
+import { WalletContext } from '@/contexts/WalletContext';
+import { Header } from '@/components/login/header';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -21,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={openSans.className}>
-        <Header />
-        {children}
+        <WalletContext>
+          <Header />
+          {children}
+        </WalletContext>
       </body>
     </html>
   );
