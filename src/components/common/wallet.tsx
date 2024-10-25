@@ -4,7 +4,7 @@ import React from 'react';
 function Wallet() {
   return (
     <>
-      <Image src="/assets/wallet.png" width={16} height={16} alt="logo" />
+      <Image src="/assets/wallet.svg" width={16} height={16} alt="logo" />
     </>
   );
 }

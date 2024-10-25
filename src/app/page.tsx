@@ -1,11 +1,12 @@
-import BlockTable from '@/components/block-table';
-import SolBalance from '@/components/sol-balance';
-import Title from '@/components/title';
+import BlockTable from '@/components/layout/block-table';
+import HeadLine from '@/components/layout/headline';
+import SearchBar from '@/components/layout/search-bar';
 
 export default function Home() {
   return (
-    <div className="">
-      <Title />
+    <div className="w-full max-w-[800px] mx-auto p-4">
+      <HeadLine />
+      <SearchBar />
       <BlockTable />
     </div>
   );

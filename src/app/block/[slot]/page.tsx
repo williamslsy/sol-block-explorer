@@ -40,7 +40,7 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
     <div className="max-w-[900px] mx-auto px-4 py-8 space-y-4">
       <Card className="relative mb-6 flex h-[96px] w-full items-center justify-between rounded-2xl border border-white/10 bg-[#111111]">
         <CardHeader className="flex flex-row items-center gap-4 p-6">
-          <Image src="/assets/Solana.png" alt="Block" width={40} height={40} />
+          <Image src="/assets/Solana.svg" alt="Block" width={40} height={40} />
           <div>
             <CardTitle className="text-white text-2xl">Block #{block.slot}</CardTitle>
             <p className="text-white/60 text-sm">Check the block details.</p>
@@ -119,7 +119,7 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
           <div className="space-y-1.5 w-full">
             <CardTitle className="text-white/60 text-xs">Reward</CardTitle>
             <div className="flex items-center gap-2">
-              <Image src="/assets/Solana.png" alt="Solana" width={16} height={16} />
+              <Image src="/assets/Solana.svg" alt="Solana" width={16} height={16} />
               <span className="text-[#52F2B9] font-medium">{block.rewardSol.toFixed(4)} SOL</span>
               <span className="text-white/60">
                 (${block.rewardUsd.toFixed(2)} @ ${block.solanaPriceUsd})

@@ -12,6 +12,7 @@ const config: Config = {
         white_secondary: 'rgba(255, 255, 255, 0.6)',
         link: '#52F2B9',
         titanium: 'rgba(255, 255, 255, 0.1)',
+        translucent: 'rgba(255, 255, 255, 0.02)',
       },
     },
   },

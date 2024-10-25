@@ -16,3 +16,9 @@ export interface TokenPrices {
   USDT: number;
   ETH: number;
 }
+
+export interface TokenBalance {
+  tokenSymbol: string;
+  tokenBalance: number;
+  tokenLogoURI: string;
+}

@@ -2,7 +2,7 @@ import { TokenPrices } from './types';
 
 export const fetchTokenPrices = async (): Promise<TokenPrices> => {
   try {
-    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin,tether,ethereum&vs_currencies=usd');
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin,tether,ethereum&vs_currencies=usd', { next: { revalidate: 300 } });
 
     if (!response.ok) {
       throw new Error('Failed to fetch token prices');

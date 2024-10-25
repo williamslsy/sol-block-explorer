@@ -4,7 +4,7 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import blocks from '@/constants/blocks.json';
 import { formatTimestamp, truncateHash } from '@/lib/utils';
-import { RewardDisplay } from './common/reward-display';
+import { RewardDisplay } from '../common/reward-display';
 import { useRouter } from 'next/navigation';
 
 function BlockTable() {
@@ -15,7 +15,7 @@ function BlockTable() {
   };
 
   return (
-    <div className="w-[800px] mx-auto">
+    <div className="w-[800px] mx-auto mt-10">
       <Table className="border-separate border-spacing-y-2">
         <TableHeader>
           <TableRow className="border-none hover:bg-transparent text-white_secondary pl-6 pr-4">
@@ -30,7 +30,7 @@ function BlockTable() {
 
         <TableBody>
           {blocks.map((block) => (
-            <TableRow key={block.blockHash} className="bg-white/[0.02] hover:bg-white/[0.04] rounded-2xl h-14 cursor-pointer" onClick={() => handleRowClick(block.slot)}>
+            <TableRow key={block.slot} className="bg-white/[0.02] hover:bg-white/[0.04] rounded-2xl h-14 cursor-pointer" onClick={() => handleRowClick(block.slot)}>
               <TableCell className="first:rounded-l-2xl pl-6 pr-4 py-4">
                 <span className="text-link">{truncateHash(block.blockHash)}</span>
               </TableCell>
