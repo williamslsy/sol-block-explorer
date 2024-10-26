@@ -1,10 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import blocks from '@/constants/blocks.json';
-import { notFound } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
+
+import blocks from '@/constants/blocks.json';
+import { Card, CardHeader } from '@/components/ui/card';
+import InfoCard from '@/components/ui/info-card';
+import Toast from '@/components/ui/toast';
+import { useTimeAgo } from '@/hooks/useTimeAgo';
+import { formatDateUTC, truncateHash } from '@/lib/utils';
+import SearchBar from '@/components/layout/search-bar';
 
 interface BlockDetailsProps {
   params: {
@@ -13,130 +20,80 @@ interface BlockDetailsProps {
 }
 
 export default function BlockDetails({ params }: BlockDetailsProps) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const router = useRouter();
   const block = blocks.find((b) => b.slot.toString() === params.slot);
 
   if (!block) {
     notFound();
   }
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  const timeAgo = useTimeAgo(block.timestamp);
+  const [showToast, setShowToast] = useState(false);
 
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTimeAgo = (timestamp: string) => {
-    const blockTime = new Date(timestamp);
-    const diffInHours = Math.floor((currentTime.getTime() - blockTime.getTime()) / (1000 * 60 * 60));
-    const diffInMinutes = Math.floor((currentTime.getTime() - blockTime.getTime()) / (1000 * 60)) % 60;
-    const diffInSeconds = Math.floor((currentTime.getTime() - blockTime.getTime()) / 1000) % 60;
-    return `${diffInHours}h ${diffInMinutes}m ${diffInSeconds}s ago`;
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setShowToast(true);
   };
 
   return (
-    <div className="max-w-[900px] mx-auto px-4 py-8 space-y-4">
-      <Card className="relative mb-6 flex h-[96px] w-full items-center justify-between rounded-2xl border border-white/10 bg-[#111111]">
-        <CardHeader className="flex flex-row items-center gap-4 p-6">
-          <Image src="/assets/Solana.svg" alt="Block" width={40} height={40} />
-          <div>
-            <CardTitle className="text-white text-2xl">Block #{block.slot}</CardTitle>
-            <p className="text-white/60 text-sm">Check the block details.</p>
-          </div>
-        </CardHeader>
-      </Card>
+    <div className="max-w-[900px] mx-auto px-4 py-8 space-y-4 mt-[72px]">
+      <div className="flex items-center gap-4">
+        <button onClick={() => router.back()} className="flex items-center justify-center p-6 w-16 h-[105px] bg-translucent rounded-2xl transition-transform duration-200 hover:-translate-x-2">
+          <Image src="/assets/arrow-left.svg" alt="Back" width={24} height={24} />
+        </button>
 
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-          <CardContent>
-            <div className="space-y-1.5">
-              <CardTitle className="text-white/60 text-xs">Block</CardTitle>
-              <p className="text-white font-medium">#{block.slot}</p>
+        <Card className="relative flex h-[105px] w-full items-center justify-between rounded-2xl border border-titanium bg-dark">
+          <CardHeader className="flex flex-row items-center gap-4 p-6">
+            <Image src="/assets/Solana.svg" alt="Block" width={40} height={40} />
+            <div>
+              <div className="text-white_primary text-2xl">Block #{block.slot}</div>
+              <p className="text-white_secondary text-sm mt-2">Check the block details.</p>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-          <CardContent>
-            <div className="space-y-1.5">
-              <CardTitle className="text-white/60 text-xs">Timestamp</CardTitle>
-              <p className="text-white font-medium">{formatTimeAgo(block.timestamp)}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-          <CardContent>
-            <div className="space-y-1.5">
-              <CardTitle className="text-white/60 text-xs">Date (UTC)</CardTitle>
-              <p className="text-white font-medium">
-                {new Date(block.timestamp).toLocaleString('en-US', {
-                  month: 'short',
-                  day: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit',
-                  timeZone: 'UTC',
-                })}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-          <CardContent>
-            <div className="space-y-1.5">
-              <CardTitle className="text-white/60 text-xs">Transactions</CardTitle>
-              <p className="text-white font-medium">{block.txCount}</p>
-            </div>
-          </CardContent>
+          </CardHeader>
         </Card>
       </div>
 
-      <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-        <CardContent>
-          <div className="space-y-1.5 w-full">
-            <CardTitle className="text-white/60 text-xs">Block hash</CardTitle>
-            <p className="text-[#52F2B9] font-medium break-all">{block.blockHash}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <SearchBar width="865px" />
 
-      <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-        <CardContent>
-          <div className="space-y-1.5 w-full">
-            <CardTitle className="text-white/60 text-xs">Leader</CardTitle>
-            <p className="text-[#52F2B9] font-medium break-all">{block.leader}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-4 gap-4">
+        <InfoCard title="Block" content={`#${block.slot}`} />
+        <InfoCard title="Timestamp" content={timeAgo} />
+        <InfoCard title="Date (UTC)" content={formatDateUTC(block.timestamp)} />
+        <InfoCard title="Transactions" content={block.txCount.toString()} />
+      </div>
 
-      <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-        <CardContent>
-          <div className="space-y-1.5 w-full">
-            <CardTitle className="text-white/60 text-xs">Reward</CardTitle>
+      <InfoCard title="Block hash" content={block.blockHash} />
+
+      <div className="grid grid-cols-2 gap-4">
+        <InfoCard
+          title="Leader"
+          content={
+            <div className="flex items-center gap-2">
+              <span className="text-green_mantis">{truncateHash(block.leader)}</span>
+              <button onClick={() => handleCopy(block.leader)} className="text-white_secondary hover:text-white_primary">
+                <Image src="/assets/copy.svg" alt="Copy" width={16} height={16} />
+              </button>
+            </div>
+          }
+          highlighted={true}
+        />
+        <InfoCard
+          title="Reward"
+          content={
             <div className="flex items-center gap-2">
               <Image src="/assets/Solana.svg" alt="Solana" width={16} height={16} />
-              <span className="text-[#52F2B9] font-medium">{block.rewardSol.toFixed(4)} SOL</span>
-              <span className="text-white/60">
+              <span className="text-white_primary font-medium">{block.rewardSol.toFixed(4)} SOL</span>
+              <span className="text-white_secondary">
                 (${block.rewardUsd.toFixed(2)} @ ${block.solanaPriceUsd})
               </span>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          }
+        />
+      </div>
 
-      <Card className="relative flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-[#111111] p-6">
-        <CardContent>
-          <div className="space-y-1.5 w-full">
-            <CardTitle className="text-white/60 text-xs">Previous Block Hash</CardTitle>
-            <p className="text-[#52F2B9] font-medium break-all">{block.prevBlockHash}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <InfoCard title="Previous Block Hash" content={block.prevBlockHash} fullWidth />
+
+      {showToast && <Toast message="Copied to clipboard" duration={1000} onClose={() => setShowToast(false)} />}
     </div>
   );
 }

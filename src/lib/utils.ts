@@ -27,3 +27,16 @@ export const truncateHash = (hash: string): string => {
   const end = hash.slice(-4);
   return `${start}...${end}`;
 };
+
+export function formatDateUTC(timestamp: string | number | Date): string {
+  return new Date(timestamp).toLocaleString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'UTC',
+    hourCycle: 'h23',
+  });
+}

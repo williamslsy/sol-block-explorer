@@ -28,7 +28,7 @@ function Login() {
         )}
       </SheetTrigger>
 
-      <SheetContent className="bg-black border-0 text-white flex flex-col">
+      <SheetContent className="bg-background border-0 text-white flex flex-col">
         <div className="flex items-center justify-between mb-6">
           {connected && (
             <div className="flex items-center">

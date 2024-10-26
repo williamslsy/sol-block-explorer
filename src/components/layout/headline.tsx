@@ -9,7 +9,7 @@ export default function HeadLine() {
         <Image src="/assets/Solana.svg" alt="Solana" width={56} height={56} />
         <div className="flex flex-col">
           <span className="text-lg font-semibold text-white">Solana block explorer</span>
-          <p className="text-sm text-white opacity-70 mt-2">Check list of blocks and detailed view.</p>
+          <p className="text-sm text-white_secondary opacity-70 mt-2">Check list of blocks and detailed view.</p>
         </div>
       </div>
     </Card>

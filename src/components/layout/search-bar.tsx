@@ -3,8 +3,13 @@ import { Input } from '../ui/input';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import blocks from '@/constants/blocks.json';
+import Image from 'next/image';
 
-export default function SearchBar() {
+interface SearchBarProps {
+  width?: string;
+}
+
+export default function SearchBar({ width = '800px' }: SearchBarProps) {
   const [searchText, setSearchText] = useState('');
   const [filteredSlots, setFilteredSlots] = useState<number[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -61,16 +66,17 @@ export default function SearchBar() {
   }, [handleClickOutside]);
 
   return (
-    <form onSubmit={handleFormSubmit} className="flex items-center h-12 w-[800px] mr-auto mt-10" ref={searchBarRef}>
+    <form onSubmit={handleFormSubmit} className={`flex items-center h-12 mr-auto mt-10`} ref={searchBarRef} style={{ width }}>
       <div className="relative w-full">
         <Input
-          className="w-full h-12 rounded-xl bg-[rgba(255,255,255,0.02)] text-white_secondary placeholder:text-white_secondary px-4 "
+          className="w-full h-12 font-medium text-sm rounded-xl bg-[rgba(255,255,255,0.02)] text-white_secondary placeholder:text-white_secondary pl-12 pr-4"
           type="text"
-          placeholder="Search blocks by slot number"
+          placeholder="Search blocks by slot"
           value={searchText}
           onChange={handleSearch}
           autoFocus
         />
+        <Image src="/assets/search.svg" alt="Search Icon" width={20} height={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white_secondary" />
 
         {dropdownVisible && filteredSlots.length > 0 && (
           <ul className="absolute top-full left-0 right-0 z-10 bg-background text-white_secondary shadow-md max-h-48 overflow-auto rounded-xl mt-2">
