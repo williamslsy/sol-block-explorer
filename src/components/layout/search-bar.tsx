@@ -81,7 +81,7 @@ export default function SearchBar({ width = '800px' }: SearchBarProps) {
         {dropdownVisible && filteredSlots.length > 0 && (
           <ul className="absolute top-full left-0 right-0 z-10 bg-background text-white_secondary shadow-md max-h-48 overflow-auto rounded-xl mt-2">
             {filteredSlots.map((slot) => (
-              <li key={slot} className="cursor-pointer px-4 py-2 hover:bg-white/[0.1] text-white_secondary" onClick={() => handleOptionClick(slot)}>
+              <li key={slot} className="cursor-pointer px-4 py-2 hover:bg-white/[0.1] text-white_secondary hover:text-green_mantis" onClick={() => handleOptionClick(slot)}>
                 {slot}
               </li>
             ))}

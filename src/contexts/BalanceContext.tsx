@@ -11,6 +11,7 @@ interface BalanceContextProps {
   tokenPrices: TokenPrices | null;
   solBalance: number | null;
   tokenBalances: TokenBalance[];
+  totalBalance: number;
   loading: boolean;
 }
 
@@ -21,6 +22,7 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
   const [solBalance, setSolBalance] = useState<number | null>(null);
   const [tokenBalances, setTokenBalances] = useState<TokenBalance[]>([]);
   const [tokenPrices] = useState<TokenPrices>(initialPrices);
+  const [totalBalance, setTotalBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const tokens = useTokenData();
 
@@ -32,38 +34,38 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
 
       try {
         const balanceLamports = await connection.getBalance(publicKey);
-        setSolBalance(balanceLamports / LAMPORTS_PER_SOL);
+        const solBalanceInUSD = (balanceLamports / LAMPORTS_PER_SOL) * (tokenPrices.SOL || 0);
+        setSolBalance(parseFloat((balanceLamports / LAMPORTS_PER_SOL).toFixed(4)));
 
         const response = await connection.getParsedTokenAccountsByOwner(publicKey, {
           programId: TOKEN_PROGRAM_ID,
         });
-
-        console.log('Fetched Token Accounts:', response.value);
 
         const fetchedTokens = response.value.map((tokenAccountInfo) => {
           const accountData = tokenAccountInfo.account.data.parsed.info;
           const mintAddress = accountData.mint;
           const tokenBalance = accountData.tokenAmount.uiAmount;
 
-          console.log('Mint Address:', mintAddress);
-          console.log('Available Tokens:', tokens);
-
           const tokenInfo = tokens.find((t) => t.address === mintAddress);
-
-          console.log('Matching Token Info:', tokenInfo);
-
           if (tokenInfo && tokenPrices[tokenInfo.symbol as keyof TokenPrices]) {
             return {
               tokenSymbol: tokenInfo.symbol,
-              tokenBalance,
+              tokenBalance: parseFloat(tokenBalance.toFixed(4)),
               tokenLogoURI: tokenInfo.logoURI || '/assets/Solana.svg',
             };
           }
           return null;
         });
 
-        setTokenBalances(fetchedTokens.filter(Boolean) as TokenBalance[]);
-        console.log('Token Balances:', fetchedTokens);
+        const validTokenBalances = fetchedTokens.filter(Boolean) as TokenBalance[];
+        setTokenBalances(validTokenBalances);
+
+        const tokenValuesInUSD = validTokenBalances.reduce((acc, token) => {
+          const price = tokenPrices[token.tokenSymbol as keyof TokenPrices] || 0;
+          return acc + token.tokenBalance * price;
+        }, 0);
+
+        setTotalBalance(parseFloat((solBalanceInUSD + tokenValuesInUSD).toFixed(1)));
       } catch (error) {
         console.error('Error fetching balances:', error);
       } finally {
@@ -76,5 +78,5 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
     }
   }, [publicKey, tokens, tokenPrices]);
 
-  return <BalanceContext.Provider value={{ tokenPrices, solBalance, tokenBalances, loading }}>{children}</BalanceContext.Provider>;
+  return <BalanceContext.Provider value={{ tokenPrices, solBalance, tokenBalances, totalBalance, loading }}>{children}</BalanceContext.Provider>;
 };
