@@ -17,10 +17,10 @@ function BlockTable() {
   const sortedBlocks = [...blocks].sort((a, b) => b.slot - a.slot);
 
   return (
-    <div className="w-[800px] mx-auto mt-10">
+    <div className="w-full mx-auto max-w-[800px] mt-10">
       <Table className="border-separate border-spacing-y-2">
         <TableHeader>
-          <TableRow className="border-none hover:bg-transparent text-white_secondary pl-6 pr-4">
+          <TableRow className="border-none hover:bg-transparent text-white_secondary">
             <TableHead className="w-[120px] font-extralight pl-6 pr-4">Block hash</TableHead>
             <TableHead className="w-[120px] font-extralight">Slot</TableHead>
             <TableHead className="w-[120px] font-extralight">Timestamp</TableHead>
