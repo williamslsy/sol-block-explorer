@@ -2,7 +2,7 @@ import { WalletModalContext, WalletModalProviderProps } from '@solana/wallet-ada
 import { useState } from 'react';
 import { CustomWalletModal } from './CustomWalletModal';
 
-export const WalletModalProvider: React.FC<WalletModalProviderProps> = ({ children, ...props }) => {
+export const WalletModalProvider: React.FC<WalletModalProviderProps> = ({ children }) => {
   const [visible, setVisible] = useState(false);
 
   return (

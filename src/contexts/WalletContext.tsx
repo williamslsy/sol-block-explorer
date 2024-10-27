@@ -2,7 +2,7 @@
 
 import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 
-import { AlphaWalletAdapter, LedgerWalletAdapter, PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { FC, useMemo } from 'react';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
