@@ -14,6 +14,8 @@ function BlockTable() {
     router.push(`/block/${slot}`);
   };
 
+  const sortedBlocks = [...blocks].sort((a, b) => b.slot - a.slot);
+
   return (
     <div className="w-[800px] mx-auto mt-10">
       <Table className="border-separate border-spacing-y-2">
@@ -29,7 +31,7 @@ function BlockTable() {
         </TableHeader>
 
         <TableBody>
-          {blocks.map((block) => (
+          {sortedBlocks.map((block) => (
             <TableRow key={block.slot} className="bg-white/[0.02] hover:bg-white/[0.04] rounded-2xl h-14 cursor-pointer" onClick={() => handleRowClick(block.slot)}>
               <TableCell className="first:rounded-l-2xl pl-6 pr-4 py-4">
                 <span className="text-link">{truncateHash(block.blockHash)}</span>

@@ -49,7 +49,7 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
 
   return (
     <TooltipProvider>
-      <div className="max-w-[900px] mx-auto px-4 py-8 space-y-4 mt-[72px]">
+      <div className="max-w-[800px] mx-auto space-y-4 mt-[72px]">
         <div className="flex items-center gap-4">
           <button onClick={() => router.back()} className="flex items-center justify-center p-6 w-16 h-[105px] bg-translucent rounded-2xl transition-transform duration-200 hover:-translate-x-2">
             <Image src="/assets/arrow-left.svg" alt="Back" width={24} height={24} />
@@ -66,9 +66,9 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
           </Card>
         </div>
 
-        <SearchBar width="865px" />
+        <SearchBar />
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-3">
           <InfoCard
             title="Block"
             content={

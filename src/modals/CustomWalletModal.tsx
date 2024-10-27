@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-base';
@@ -8,6 +8,7 @@ import Image from 'next/image';
 export const CustomWalletModal = () => {
   const { wallets, select } = useWallet();
   const { setVisible } = useWalletModal();
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
     setVisible(false);
@@ -21,9 +22,24 @@ export const CustomWalletModal = () => {
     [select, handleClose]
   );
 
+  const phantomWallet = wallets.find((wallet) => wallet.adapter.name === 'Phantom');
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-3xl backdrop-filter">
-      <Card className="relative w-[90%] max-w-[420px] bg-background border-none rounded-xl p-6">
+    <div className="modal-overlay" onClick={handleClose}>
+      <Card ref={cardRef} className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center mb-4">
           <button onClick={handleClose} className="p-2 hover:text-white_secondary transition-colors">
             <Image src="/assets/arrow-left.svg" alt="Back" width={24} height={24} />
@@ -32,9 +48,14 @@ export const CustomWalletModal = () => {
         </div>
 
         <div className="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar">
-          {wallets.map((wallet) => (
-            <WalletOption key={wallet.adapter.name} name={wallet.adapter.name} icon={wallet.adapter.icon} onClick={() => handleWalletClick(wallet.adapter.name as WalletName)} />
-          ))}
+          {phantomWallet && (
+            <WalletOption
+              key={phantomWallet.adapter.name}
+              name={phantomWallet.adapter.name}
+              icon={phantomWallet.adapter.icon}
+              onClick={() => handleWalletClick(phantomWallet.adapter.name as WalletName)}
+            />
+          )}
         </div>
       </Card>
     </div>

@@ -4,7 +4,7 @@ import SearchBar from '@/components/layout/search-bar';
 
 export default function Home() {
   return (
-    <div className="w-full max-w-[800px] mx-auto p-4">
+    <div className="w-full max-w-[800px] mx-auto">
       <HeadLine />
       <SearchBar />
       <BlockTable />

@@ -2,6 +2,8 @@
   "name": "sol-block-explorer",
   "version": "0.1.0",
   "private": true,
+  "author": "Sylvester Olawale",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -9,7 +9,7 @@ interface SearchBarProps {
   width?: string;
 }
 
-export default function SearchBar({ width = '800px' }: SearchBarProps) {
+export default function SearchBar({ width }: SearchBarProps) {
   const [searchText, setSearchText] = useState('');
   const [filteredSlots, setFilteredSlots] = useState<number[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);

@@ -4,20 +4,19 @@ import { Button } from '../ui/button';
 import { Sheet, SheetTrigger, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import Image from 'next/image';
 import { useWallet } from '@solana/wallet-adapter-react';
-import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import Account from '../account/account';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { useBalanceContext } from '@/hooks/useBalanceContext';
 import Skeleton from '@/components/ui/skeleton';
 
-const WalletMultiButtonDynamic = dynamic(async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton, { ssr: false });
-
 function Login() {
   const { disconnect, connected } = useWallet();
   const { totalBalance } = useBalanceContext();
+  const { setVisible } = useWalletModal();
   const [walletLoading, setWalletLoading] = useState(true);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   useEffect(() => {
     if (connected !== undefined) {
@@ -25,9 +24,14 @@ function Login() {
     }
   }, [connected]);
 
+  const openWalletModal = () => {
+    setIsSheetOpen(false);
+    setTimeout(() => setVisible(true), 200);
+  };
+
   return (
     <TooltipProvider>
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           {walletLoading ? (
             <Skeleton className="rounded-2xl" width="48px" height="44px" />
@@ -47,7 +51,7 @@ function Login() {
           <div className="flex items-center justify-between mb-6">
             {connected && (
               <SheetTrigger asChild>
-                <div className="flex items-center cursor-pointer">
+                <div className="flex items-center cursor-pointer transition-transform duration-200 hover:-translate-x-1">
                   <Image src="/assets/arrow-left.svg" alt="Back" width={24} height={24} />
                 </div>
               </SheetTrigger>
@@ -76,10 +80,10 @@ function Login() {
             <Account />
           ) : (
             <div className="flex mx-auto my-auto">
-              <WalletMultiButtonDynamic>
+              <Button onClick={openWalletModal} className="rounded-2xl">
                 <Wallet />
-                <span className="ml-1">Connect</span>
-              </WalletMultiButtonDynamic>
+                <span className="">Connect</span>
+              </Button>
             </div>
           )}
         </SheetContent>
