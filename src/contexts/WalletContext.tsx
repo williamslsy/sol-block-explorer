@@ -1,11 +1,12 @@
 'use client';
 
 import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+
+import { AlphaWalletAdapter, LedgerWalletAdapter, PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { FC, useMemo } from 'react';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
+import { WalletModalProvider } from '@/modals/WalletModalProvider';
 
 type Props = {
   children?: React.ReactNode;

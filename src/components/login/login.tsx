@@ -5,21 +5,33 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle } from '@/components/ui/s
 import Image from 'next/image';
 import { useWallet } from '@solana/wallet-adapter-react';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 
 import Account from '../account/account';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { useBalanceContext } from '@/hooks/useBalanceContext';
+import Skeleton from '@/components/ui/skeleton';
 
 const WalletMultiButtonDynamic = dynamic(async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton, { ssr: false });
 
 function Login() {
   const { disconnect, connected } = useWallet();
   const { totalBalance } = useBalanceContext();
+  const [walletLoading, setWalletLoading] = useState(true);
+
+  useEffect(() => {
+    if (connected !== undefined) {
+      setWalletLoading(false);
+    }
+  }, [connected]);
+
   return (
     <TooltipProvider>
       <Sheet>
         <SheetTrigger asChild>
-          {connected ? (
+          {walletLoading ? (
+            <Skeleton className="rounded-2xl" width="48px" height="44px" />
+          ) : connected ? (
             <Button className="rounded-2xl">
               <Wallet />
             </Button>
@@ -43,7 +55,7 @@ function Login() {
 
             <div className="flex flex-col items-center flex-grow">
               <SheetTitle className="font-light text-base text-[#9592A0]">Total balance</SheetTitle>
-              <div className="mt-2 text-white_primary text-4xl font-semibold">${connected ? totalBalance?.toLocaleString() : '0.00'}</div>
+              <div className="mt-2 text-white_primary text-4xl font-semibold">${connected ? totalBalance?.toFixed(1) : '0.0'}</div>
             </div>
 
             {connected && (
@@ -61,9 +73,7 @@ function Login() {
           </div>
 
           {connected ? (
-            <>
-              <Account />
-            </>
+            <Account />
           ) : (
             <div className="flex mx-auto my-auto">
               <WalletMultiButtonDynamic>

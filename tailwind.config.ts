@@ -20,5 +20,8 @@ const config: Config = {
     },
   },
   plugins: [require('tailwindcss-animate')],
+  variants: {
+    backdropBlur: ['responsive'],
+  },
 };
 export default config;
