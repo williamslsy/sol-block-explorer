@@ -51,7 +51,7 @@ NEXT_PUBLIC_ALCHEMY_API_KEY=<your_alchemy_key>
     - Choose the Phantom wallet (the primary supported wallet in this setup).
     - After connecting, view your SOL and token balances, converted to USD.
 
-![User Balances Screenshot](./assets/user-balances.png)
+![User Balances Screenshot](public/assets/user-balances.png)
 
 2.  **Exploring Blocks**:
 
