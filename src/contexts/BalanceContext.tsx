@@ -6,6 +6,7 @@ import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useTokenData } from '@/hooks/useTokenData';
 import { TokenBalance, TokenPrices } from '@/lib/types';
+import Toast from '@/components/ui/toast';
 
 interface BalanceContextProps {
   tokenPrices: TokenPrices | null;
@@ -24,6 +25,7 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
   const [tokenPrices] = useState<TokenPrices>(initialPrices);
   const [totalBalance, setTotalBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const tokens = useTokenData();
 
   useEffect(() => {
@@ -68,6 +70,7 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
         setTotalBalance(parseFloat((solBalanceInUSD + tokenValuesInUSD).toFixed(1)));
       } catch (error) {
         console.error('Error fetching balances:', error);
+        setError('Failed to fetch balances. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -78,5 +81,10 @@ export const BalanceProvider: React.FC<{ children: ReactNode; initialPrices: Tok
     }
   }, [publicKey, tokens, tokenPrices]);
 
-  return <BalanceContext.Provider value={{ tokenPrices, solBalance, tokenBalances, totalBalance, loading }}>{children}</BalanceContext.Provider>;
+  return (
+    <BalanceContext.Provider value={{ tokenPrices, solBalance, tokenBalances, totalBalance, loading }}>
+      {children}
+      {error && <Toast message={error} type="error" duration={4000} onClose={() => setError(null)} />}
+    </BalanceContext.Provider>
+  );
 };

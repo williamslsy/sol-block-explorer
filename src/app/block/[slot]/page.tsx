@@ -12,7 +12,7 @@ import Toast from '@/components/ui/toast';
 import { useTimeAgo } from '@/hooks/useTimeAgo';
 import { formatDateUTC, truncateHash } from '@/lib/utils';
 import SearchBar from '@/components/layout/search-bar';
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip'; // import Tooltip components
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 
 interface BlockDetailsProps {
   params: {
@@ -68,7 +68,6 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
 
         <SearchBar />
         <div className="space-y-3">
-          {/* Title Card */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-10">
             <InfoCard
               title="Block"
@@ -103,10 +102,8 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
             <InfoCard title="Transactions" content={block.txCount.toString()} />
           </div>
 
-          {/* Block Hash */}
           <InfoCard title="Block hash" content={block.blockHash} fullWidth />
 
-          {/* Leader and Reward */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoCard
               title="Leader"
@@ -134,7 +131,6 @@ export default function BlockDetails({ params }: BlockDetailsProps) {
             />
           </div>
 
-          {/* Previous Block Hash */}
           <InfoCard title="Previous Block Hash" content={block.prevBlockHash} fullWidth />
         </div>
         {showToast && <Toast message="Copied to clipboard" duration={1000} onClose={() => setShowToast(false)} />}
