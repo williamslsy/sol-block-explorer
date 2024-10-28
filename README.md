@@ -111,6 +111,8 @@ NEXT_PUBLIC_ALCHEMY_API_KEY=<your_alchemy_key>
 3. **Dynamic Error Handling with Toasts**:
    - Implemented error handling with toasts to provide instant user feedback. This includes handling API errors for token prices and Solana block data, ensuring users are informed of any issues as they interact with the app.
 
+![User Balances Screenshot](public/assets/error-state.png)
+
 ### Areas for Improvement
 
 ---
