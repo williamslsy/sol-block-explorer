@@ -17,7 +17,7 @@
 #### Clone the Repository and Install Dependencies
 
 ```bash
-git clone https://github.com/your-username/sol-block-explorer.git
+git clone https://github.com/williamslsy/sol-block-explorer.git
 
 cd sol-block-explorer
 
